@@ -2,9 +2,10 @@ import { useState } from "react";
 import { customers as initialCustomers } from "../services/customerData";
 
 export default function Dashboard() {
-  const [customers, setCustomers] = useState(initialCustomers);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+ const [customers, setCustomers] = useState(initialCustomers);
+const [name, setName] = useState("");
+const [phone, setPhone] = useState("");
+const [search, setSearch] = useState("");
 
   const addCustomer = () => {
     if (!name || !phone) {
@@ -55,7 +56,11 @@ export default function Dashboard() {
 
       <h2>고객 목록</h2>
 
-      {customers.map((customer) => (
+      {customers
+  .filter((customer) =>
+    customer.name.includes(search)
+  )
+  .map((customer) => (
         <div key={customer.id}>
           <h3>
             {customer.name}
@@ -65,6 +70,19 @@ export default function Dashboard() {
           <p>{customer.phone}</p>
         </div>
       ))}
+
+      <h2>🔍 고객 검색</h2>
+
+<input
+  placeholder="이름 검색"
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+/>
+
+<br />
+<br />
     </div>
   );
+
+  
 }
